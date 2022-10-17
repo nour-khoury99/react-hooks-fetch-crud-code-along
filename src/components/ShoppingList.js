@@ -7,6 +7,17 @@ function ShoppingList() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [items, setItems] = useState([]);
 
+  useEffect(() => {
+    fetch("http://localhost:4000/items")
+      .then((r) => r.json())
+      .then((items) => setItems(items));
+  }, []);
+
+  // add this function!
+  function handleAddItem(newItem) {
+    console.log("In ShoppingList:", newItem);
+  }
+
   function handleCategoryChange(category) {
     setSelectedCategory(category);
   }
@@ -19,7 +30,8 @@ function ShoppingList() {
 
   return (
     <div className="ShoppingList">
-      <ItemForm />
+      {/* add the onAddItem prop! */}
+      <ItemForm onAddItem={handleAddItem} />
       <Filter
         category={selectedCategory}
         onCategoryChange={handleCategoryChange}
@@ -32,5 +44,3 @@ function ShoppingList() {
     </div>
   );
 }
-
-export default ShoppingList;
